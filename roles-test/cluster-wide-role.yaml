@@ -1,0 +1,12 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: test-cluster-wide-binding
+subjects: 
+  - kind: ServiceAccount
+    name: aan-account
+    namespace: test-roles
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io/v1

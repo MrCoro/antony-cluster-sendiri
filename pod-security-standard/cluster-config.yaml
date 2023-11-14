@@ -1,0 +1,22 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: ClusterConfiguration
+    apiServer:
+        extraArgs:
+          admission-control-config-file: ~/Public/Cloud/cloudex/cluster-sendiri/pod-security-standard/cluster-level-pss.yaml
+        extraVolumes:
+          - name: accf
+            hostPath: /etc/config
+            mountPath: /etc/config
+            readOnly: false
+            pathType: "DirectoryOrCreate"
+  extraMounts:
+    - hostPath: /tmp/pss
+      containerPath: /etc/config
+      readOnly: false
+      selinuxRelabel: false
+      propagation: None

@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata: 
+  name: nginx-parallel
+  labels: 
+    app: nginx-parallel
+spec:
+  ports:
+  - port: 80
+    name: web-parallel
+  clusterIP: None
+  selector:
+    app: nginx-parallel
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web-parallel
+spec:
+  serviceName: "nginx-parallel"
+  podManagementPolicy: "Parallel"
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: nginx-parallel
+  template:
+    metadata:
+      labels:
+        app: nginx-parallel
+    spec:
+      containers:
+      - name: nginx-parallel
+        image: registry.k8s.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web-parallel
+        volumeMounts:
+          - name: www
+            mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec: 
+      accessModes: ["ReadWriteOnce"]
+      resources: 
+        requests:
+          storage: 1Gi
+
+
+

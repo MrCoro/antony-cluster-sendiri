@@ -1,0 +1,23 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: test-role-aan
+  namespace: test-roles
+rules:
+  - apiGroups: ['*']
+    resources: ['*']
+    verbs: ['*']
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata: 
+  name: test-role-binding-aan
+  namespace: test-roles
+subjects:
+  - kind: ServiceAccount
+    name: aan-account
+    namespace: test-roles
+roleRef:
+  kind: Role
+  name: test-role-aan
+  apiGroup: rbac.authorization.k8s.io

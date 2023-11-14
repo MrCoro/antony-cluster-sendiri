@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nginx-service-tutorial
+spec:
+  selector:
+    matchLabels:
+      run: nginx-service-tutorial
+  replicas: 2
+  template: 
+    metadata:
+      labels: 
+        run: nginx-service-tutorial
+    spec:
+      containers:
+      - name: nginx-tutorial
+        image: nginx
+        ports:
+        - containerPort: 80
+

@@ -1,0 +1,21 @@
+#ingress default backend jadi ingress dengan namespace sama akan diroute ke backend ini kalau tidak ada host tujuan
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: 
+  name: ingress-resource-backend
+spec:
+  defaultBackend:
+    resource: 
+      apiGroup: k8s.example.com
+      kind: StorageBucket
+      name: startic-assets
+  rules:
+    - http:
+        paths:
+          - path: /icon
+            pathType: ImplementationSpecific
+            backend: 
+              resource:
+                apiGroup: k8s.example.com
+                kind: StorageBucket
+                name: icon-assets
